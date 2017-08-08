@@ -3,6 +3,7 @@ package com.kaola.qrcodescanner.qrcode;
 import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,7 +92,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             initCamera();
         } else {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA }, REQUEST_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSIONS);
         }
     }
 
@@ -228,6 +229,9 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
                     turnFlashLightOff();
                 }
                 break;
+            case R.id.qr_code_header_black_pic:
+                startActivity(new Intent(QrCodeActivity.this, CreateQrActivity.class));
+                break;
         }
     }
 
@@ -255,14 +259,14 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length != 0) {
             int cameraPermission = grantResults[0];
             if (cameraPermission == PackageManager.PERMISSION_GRANTED) {
                 initCamera();
             } else {
-                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA },
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                         REQUEST_PERMISSIONS);
             }
         }
