@@ -19,7 +19,6 @@ import android.util.Log;
 
 import com.google.zxing.Result;
 import com.kaola.qrcodescanner.R;
-import com.kaola.qrcodescanner.qrcode.QrCodeActivity;
 import com.kaola.qrcodescanner.qrcode.camera.CameraManager;
 
 /**
@@ -28,13 +27,13 @@ import com.kaola.qrcodescanner.qrcode.camera.CameraManager;
 public final class CaptureActivityHandler extends Handler {
     private static final String TAG = CaptureActivityHandler.class.getName();
 
-    private final QrCodeActivity mActivity;
+    private final DecodeListener decodeListener;
     private final DecodeThread mDecodeThread;
     private State mState;
 
-    public CaptureActivityHandler(QrCodeActivity activity) {
-        this.mActivity = activity;
-        mDecodeThread = new DecodeThread(activity);
+    public CaptureActivityHandler(DecodeListener decodeListener) {
+        this.decodeListener = decodeListener;
+        mDecodeThread = new DecodeThread(decodeListener);
         mDecodeThread.start();
         mState = State.SUCCESS;
         // Start ourselves capturing previews and decoding.
@@ -55,7 +54,7 @@ public final class CaptureActivityHandler extends Handler {
             case R.id.decode_succeeded:
                 Log.e(TAG, "Got decode succeeded message");
                 mState = State.SUCCESS;
-                mActivity.handleDecode((Result) message.obj);
+                decodeListener.decodeResult((Result) message.obj);
                 break;
             case R.id.decode_failed:
                 // We're decoding as fast as possible, so when one decode fails, start another.

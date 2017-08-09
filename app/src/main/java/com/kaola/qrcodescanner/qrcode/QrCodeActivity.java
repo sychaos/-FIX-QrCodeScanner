@@ -26,6 +26,7 @@ import com.google.zxing.Result;
 import com.kaola.qrcodescanner.R;
 import com.kaola.qrcodescanner.qrcode.camera.CameraManager;
 import com.kaola.qrcodescanner.qrcode.decode.CaptureActivityHandler;
+import com.kaola.qrcodescanner.qrcode.decode.DecodeListener;
 import com.kaola.qrcodescanner.qrcode.decode.DecodeManager;
 import com.kaola.qrcodescanner.qrcode.decode.InactivityTimer;
 import com.kaola.qrcodescanner.qrcode.view.QrCodeFinderView;
@@ -37,7 +38,7 @@ import java.io.IOException;
  * <p/>
  * 二维码扫描类。
  */
-public class QrCodeActivity extends Activity implements Callback, OnClickListener {
+public class QrCodeActivity extends Activity implements Callback, OnClickListener, DecodeListener {
 
     public static final String INTENT_OUT_STRING_SCAN_RESULT = "scan_result";
     private static final String INTENT_IN_INT_SUPPORT_TYPE = "support_type";
@@ -82,7 +83,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     }
 
     private void initData() {
-        CameraManager.init();
+        CameraManager.init(QrCodeActivity.this);
         mInactivityTimer = new InactivityTimer(this);
     }
 
@@ -143,26 +144,6 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         super.onDestroy();
     }
 
-    /**
-     * Handler scan result
-     *
-     * @param result
-     */
-    public void handleDecode(Result result) {
-        mInactivityTimer.onActivity();
-        if (null == result) {
-            mDecodeManager.showCouldNotReadQrCodeFromScanner(this, new DecodeManager.OnRefreshCameraListener() {
-                @Override
-                public void refresh() {
-                    restartPreview();
-                }
-            });
-        } else {
-            String resultString = result.getText();
-            handleResult(resultString);
-        }
-    }
-
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
             if (!CameraManager.get().openDriver(surfaceHolder)) {
@@ -215,6 +196,23 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         mHasSurface = false;
     }
 
+    @Override
+    public void decodeResult(Result result) {
+        mInactivityTimer.onActivity();
+        if (null == result) {
+            mDecodeManager.showCouldNotReadQrCodeFromScanner(this, new DecodeManager.OnRefreshCameraListener() {
+                @Override
+                public void refresh() {
+                    restartPreview();
+                }
+            });
+        } else {
+            String resultString = result.getText();
+            handleResult(resultString);
+        }
+    }
+
+    @Override
     public Handler getCaptureActivityHandler() {
         return mCaptureActivityHandler;
     }

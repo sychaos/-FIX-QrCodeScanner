@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2010 ZXing authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -13,6 +13,7 @@
 
 package com.kaola.qrcodescanner.qrcode.camera;
 
+import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.Log;
@@ -26,6 +27,9 @@ import java.util.regex.Pattern;
 
 final class CameraConfigurationManager {
     private static final String TAG = CameraConfigurationManager.class.getName();
+
+    private Context context;
+
     private static final int TEN_DESIRED_ZOOM = 10;
     private static final int DESIRED_SHARPNESS = 30;
 
@@ -33,6 +37,10 @@ final class CameraConfigurationManager {
 
     private Camera.Size mCameraResolution;
     private Camera.Size mPictureResolution;
+
+    public CameraConfigurationManager(Context context) {
+        this.context = context;
+    }
 
     private static Point getCameraResolution(Camera.Parameters parameters, Point screenResolution) {
 
@@ -125,10 +133,10 @@ final class CameraConfigurationManager {
      */
     void initFromCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
-        mCameraResolution = findCloselySize(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(),
+        mCameraResolution = findCloselySize(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context),
                 parameters.getSupportedPreviewSizes());
         Log.e(TAG, "Setting preview size: " + mCameraResolution.width + "-" + mCameraResolution.height);
-        mPictureResolution = findCloselySize(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(),
+        mPictureResolution = findCloselySize(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context),
                 parameters.getSupportedPictureSizes());
         Log.e(TAG, "Setting picture size: " + mPictureResolution.width + "-" + mPictureResolution.height);
     }
@@ -226,9 +234,9 @@ final class CameraConfigurationManager {
     /**
      * 通过对比得到与宽高比最接近的尺寸（如果有相同尺寸，优先选择）
      *
-     * @param surfaceWidth 需要被进行对比的原宽
+     * @param surfaceWidth  需要被进行对比的原宽
      * @param surfaceHeight 需要被进行对比的原高
-     * @param preSizeList 需要对比的预览尺寸列表
+     * @param preSizeList   需要对比的预览尺寸列表
      * @return 得到与原宽高比例最接近的尺寸
      */
     protected Camera.Size findCloselySize(int surfaceWidth, int surfaceHeight, List<Camera.Size> preSizeList) {

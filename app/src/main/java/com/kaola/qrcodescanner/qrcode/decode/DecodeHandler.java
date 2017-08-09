@@ -36,13 +36,13 @@ import java.util.Map;
 
 final class DecodeHandler extends Handler {
 
-    private final QrCodeActivity mActivity;
+    private final DecodeListener decodeListener;
     private final MultiFormatReader mMultiFormatReader;
     private final Map<DecodeHintType, Object> mHints;
     private byte[] mRotatedData;
 
-    DecodeHandler(QrCodeActivity activity) {
-        this.mActivity = activity;
+    DecodeHandler(DecodeListener decodeListener) {
+        this.decodeListener = decodeListener;
         mMultiFormatReader = new MultiFormatReader();
         mHints = new Hashtable<>();
         mHints.put(DecodeHintType.CHARACTER_SET, "utf-8");
@@ -74,8 +74,8 @@ final class DecodeHandler extends Handler {
      * Decode the data within the viewfinder rectangle, and time how long it took. For efficiency, reuse the same reader
      * objects from one decode to the next.
      *
-     * @param data The YUV preview frame.
-     * @param width The width of the preview frame.
+     * @param data   The YUV preview frame.
+     * @param width  The width of the preview frame.
      * @param height The height of the preview frame.
      */
     private void decode(byte[] data, int width, int height) {
@@ -111,10 +111,10 @@ final class DecodeHandler extends Handler {
         }
 
         if (rawResult != null) {
-            Message message = Message.obtain(mActivity.getCaptureActivityHandler(), R.id.decode_succeeded, rawResult);
+            Message message = Message.obtain(decodeListener.getCaptureActivityHandler(), R.id.decode_succeeded, rawResult);
             message.sendToTarget();
         } else {
-            Message message = Message.obtain(mActivity.getCaptureActivityHandler(), R.id.decode_failed);
+            Message message = Message.obtain(decodeListener.getCaptureActivityHandler(), R.id.decode_failed);
             message.sendToTarget();
         }
     }

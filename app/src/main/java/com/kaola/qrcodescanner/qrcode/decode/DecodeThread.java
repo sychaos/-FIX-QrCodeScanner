@@ -16,8 +16,6 @@ package com.kaola.qrcodescanner.qrcode.decode;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.kaola.qrcodescanner.qrcode.QrCodeActivity;
-
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -25,12 +23,12 @@ import java.util.concurrent.CountDownLatch;
  */
 final class DecodeThread extends Thread {
 
-    private final QrCodeActivity mActivity;
+    private final DecodeListener decodeListener;
     private final CountDownLatch mHandlerInitLatch;
     private Handler mHandler;
 
-    DecodeThread(QrCodeActivity activity) {
-        this.mActivity = activity;
+    DecodeThread(DecodeListener decodeListener) {
+        this.decodeListener = decodeListener;
         mHandlerInitLatch = new CountDownLatch(1);
     }
 
@@ -46,7 +44,7 @@ final class DecodeThread extends Thread {
     @Override
     public void run() {
         Looper.prepare();
-        mHandler = new DecodeHandler(mActivity);
+        mHandler = new DecodeHandler(decodeListener);
         mHandlerInitLatch.countDown();
         Looper.loop();
     }

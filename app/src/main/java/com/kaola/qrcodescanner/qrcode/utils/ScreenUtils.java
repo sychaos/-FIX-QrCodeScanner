@@ -24,8 +24,7 @@ public class ScreenUtils {
      *
      * @return
      */
-    public static int getScreenWidth() {
-        Context context = QrCodeApplication.sAppContext;
+    public static int getScreenWidth(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.widthPixels;
     }
@@ -35,8 +34,7 @@ public class ScreenUtils {
      *
      * @return
      */
-    public static int getScreenHeight() {
-        Context context = QrCodeApplication.sAppContext;
+    public static int getScreenHeight(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.heightPixels;
     }

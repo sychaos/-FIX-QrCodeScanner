@@ -13,6 +13,7 @@
 
 package com.kaola.qrcodescanner.qrcode.camera;
 
+import android.content.Context;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.view.SurfaceHolder;
@@ -40,8 +41,8 @@ public final class CameraManager {
     private boolean mInitialized;
     private boolean mPreviewing;
 
-    private CameraManager() {
-        this.mConfigManager = new CameraConfigurationManager();
+    private CameraManager(Context context) {
+        this.mConfigManager = new CameraConfigurationManager(context);
         mPreviewCallback = new PreviewCallback(mConfigManager);
         mAutoFocusCallback = new AutoFocusCallback();
     }
@@ -49,9 +50,9 @@ public final class CameraManager {
     /**
      * Initializes this static object with the Context of the calling Activity.
      */
-    public static void init() {
+    public static void init(Context context) {
         if (sCameraManager == null) {
-            sCameraManager = new CameraManager();
+            sCameraManager = new CameraManager(context);
         }
     }
 
