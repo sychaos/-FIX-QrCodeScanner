@@ -1,4 +1,4 @@
-package com.kaola.qrcodescanner.qrcode.utils;
+package com.google.zxing.custom.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

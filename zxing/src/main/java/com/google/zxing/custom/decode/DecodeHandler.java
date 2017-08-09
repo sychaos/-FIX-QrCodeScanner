@@ -11,7 +11,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.kaola.qrcodescanner.qrcode.decode;
+package com.google.zxing.custom.decode;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -25,8 +25,6 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.kaola.qrcodescanner.R;
-import com.kaola.qrcodescanner.qrcode.QrCodeActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,10 +56,10 @@ final class DecodeHandler extends Handler {
     @Override
     public void handleMessage(Message message) {
         switch (message.what) {
-            case R.id.decode:
+            case CaptureActivityHandler.DECODE:
                 decode((byte[]) message.obj, message.arg1, message.arg2);
                 break;
-            case R.id.quit:
+            case CaptureActivityHandler.QUIT:
                 Looper looper = Looper.myLooper();
                 if (null != looper) {
                     looper.quit();
@@ -111,10 +109,10 @@ final class DecodeHandler extends Handler {
         }
 
         if (rawResult != null) {
-            Message message = Message.obtain(decodeListener.getCaptureActivityHandler(), R.id.decode_succeeded, rawResult);
+            Message message = Message.obtain(decodeListener.getCaptureActivityHandler(), CaptureActivityHandler.DECODE_SUCCEEDED, rawResult);
             message.sendToTarget();
         } else {
-            Message message = Message.obtain(decodeListener.getCaptureActivityHandler(), R.id.decode_failed);
+            Message message = Message.obtain(decodeListener.getCaptureActivityHandler(), CaptureActivityHandler.DECODE_FAILED);
             message.sendToTarget();
         }
     }

@@ -23,13 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.google.zxing.custom.camera.CameraManager;
+import com.google.zxing.custom.decode.CaptureActivityHandler;
+import com.google.zxing.custom.decode.DecodeListener;
+import com.google.zxing.custom.decode.DecodeManager;
+import com.google.zxing.custom.decode.InactivityTimer;
+import com.google.zxing.custom.view.QrCodeFinderView;
 import com.kaola.qrcodescanner.R;
-import com.kaola.qrcodescanner.qrcode.camera.CameraManager;
-import com.kaola.qrcodescanner.qrcode.decode.CaptureActivityHandler;
-import com.kaola.qrcodescanner.qrcode.decode.DecodeListener;
-import com.kaola.qrcodescanner.qrcode.decode.DecodeManager;
-import com.kaola.qrcodescanner.qrcode.decode.InactivityTimer;
-import com.kaola.qrcodescanner.qrcode.view.QrCodeFinderView;
 
 import java.io.IOException;
 

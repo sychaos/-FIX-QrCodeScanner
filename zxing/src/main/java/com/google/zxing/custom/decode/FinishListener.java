@@ -11,7 +11,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.kaola.qrcodescanner.qrcode.decode;
+package com.google.zxing.custom.decode;
 
 import android.app.Activity;
 import android.content.DialogInterface;

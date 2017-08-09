@@ -11,21 +11,33 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.kaola.qrcodescanner.qrcode.decode;
+package com.google.zxing.custom.decode;
 
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.zxing.R;
 import com.google.zxing.Result;
-import com.kaola.qrcodescanner.R;
-import com.kaola.qrcodescanner.qrcode.camera.CameraManager;
+import com.google.zxing.custom.camera.CameraManager;
 
 /**
  * This class handles all the messaging which comprises the state machine for capture.
  */
 public final class CaptureActivityHandler extends Handler {
     private static final String TAG = CaptureActivityHandler.class.getName();
+
+    public static final int AUTO_FOCUS = 1001;
+    public static final int DECODE_SUCCEEDED = 1002;
+    public static final int DECODE_FAILED = 1003;
+    public static final int DECODE = 1004;
+
+    public static final int ENCODE_FAILED = 1005;
+    public static final int ENCODE_SUCCEEDED = 1006;
+
+    public static final int QUIT = 1007;
+    public static final int RESTART_PREVIEW = 1008;
+
 
     private final DecodeListener decodeListener;
     private final DecodeThread mDecodeThread;
@@ -43,23 +55,23 @@ public final class CaptureActivityHandler extends Handler {
     @Override
     public void handleMessage(Message message) {
         switch (message.what) {
-            case R.id.auto_focus:
+            case AUTO_FOCUS:
                 // Log.d(TAG, "Got auto-focus message");
                 // When one auto focus pass finishes, start another. This is the closest thing to
                 // continuous AF. It does seem to hunt a bit, but I'm not sure what else to do.
                 if (mState == State.PREVIEW) {
-                    CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
+                    CameraManager.get().requestAutoFocus(this, AUTO_FOCUS);
                 }
                 break;
-            case R.id.decode_succeeded:
+            case DECODE_SUCCEEDED:
                 Log.e(TAG, "Got decode succeeded message");
                 mState = State.SUCCESS;
                 decodeListener.decodeResult((Result) message.obj);
                 break;
-            case R.id.decode_failed:
+            case DECODE_FAILED:
                 // We're decoding as fast as possible, so when one decode fails, start another.
                 mState = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(mDecodeThread.getHandler(), R.id.decode);
+                CameraManager.get().requestPreviewFrame(mDecodeThread.getHandler(), DECODE);
                 break;
         }
     }
@@ -67,7 +79,7 @@ public final class CaptureActivityHandler extends Handler {
     public void quitSynchronously() {
         mState = State.DONE;
         CameraManager.get().stopPreview();
-        Message quit = Message.obtain(mDecodeThread.getHandler(), R.id.quit);
+        Message quit = Message.obtain(mDecodeThread.getHandler(), QUIT);
         quit.sendToTarget();
         try {
             mDecodeThread.join();
@@ -76,16 +88,16 @@ public final class CaptureActivityHandler extends Handler {
         }
 
         // Be absolutely sure we don't send any queued up messages
-        removeMessages(R.id.decode_succeeded);
-        removeMessages(R.id.decode_failed);
+        removeMessages(DECODE_SUCCEEDED);
+        removeMessages(DECODE_FAILED);
     }
 
     public void restartPreviewAndDecode() {
         if (mState != State.PREVIEW) {
             CameraManager.get().startPreview();
             mState = State.PREVIEW;
-            CameraManager.get().requestPreviewFrame(mDecodeThread.getHandler(), R.id.decode);
-            CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
+            CameraManager.get().requestPreviewFrame(mDecodeThread.getHandler(), DECODE);
+            CameraManager.get().requestAutoFocus(this, AUTO_FOCUS);
         }
     }
 

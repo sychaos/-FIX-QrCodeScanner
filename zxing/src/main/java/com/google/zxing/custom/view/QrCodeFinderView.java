@@ -11,7 +11,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.kaola.qrcodescanner.qrcode.view;
+package com.google.zxing.custom.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -23,8 +23,9 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.kaola.qrcodescanner.R;
-import com.kaola.qrcodescanner.qrcode.utils.ScreenUtils;
+import com.google.zxing.R;
+import com.google.zxing.custom.utils.ScreenUtils;
+
 
 /**
  * This view is overlaid on top of the camera preview. It adds the viewfinder rectangle and partial transparency outside
@@ -82,7 +83,7 @@ public final class QrCodeFinderView extends RelativeLayout {
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.layout_qr_code_scanner, this);
         FrameLayout frameLayout = (FrameLayout) relativeLayout.findViewById(R.id.qr_code_fl_scanner);
         mFrameRect = new Rect();
-        RelativeLayout.LayoutParams layoutParams = (LayoutParams) frameLayout.getLayoutParams();
+        LayoutParams layoutParams = (LayoutParams) frameLayout.getLayoutParams();
         mFrameRect.left = (ScreenUtils.getScreenWidth(context) - layoutParams.width) / 2;
         mFrameRect.top = layoutParams.topMargin;
         mFrameRect.right = mFrameRect.left + layoutParams.width;

@@ -11,14 +11,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.kaola.qrcodescanner.qrcode.camera;
+package com.google.zxing.custom.camera;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.Log;
 
-import com.kaola.qrcodescanner.qrcode.utils.ScreenUtils;
+import com.google.zxing.custom.utils.ScreenUtils;
 
 import java.util.Collections;
 import java.util.Comparator;

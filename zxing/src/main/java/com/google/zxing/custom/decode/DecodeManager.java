@@ -1,11 +1,12 @@
-package com.kaola.qrcodescanner.qrcode.decode;
+package com.google.zxing.custom.decode;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import com.kaola.qrcodescanner.R;
+import com.google.zxing.R;
+
 
 /**
  * Created by xingli on 1/8/16.

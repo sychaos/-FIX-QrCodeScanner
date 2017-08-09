@@ -1,9 +1,7 @@
-package com.kaola.qrcodescanner.qrcode.utils;
+package com.google.zxing.custom.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-
-import com.kaola.qrcodescanner.qrcode.QrCodeApplication;
 
 /**
  * ScreenUtils

@@ -1,10 +1,10 @@
-package com.kaola.qrcodescanner.qrcode.decode;
+package com.google.zxing.custom.decode;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.google.zxing.Result;
-import com.kaola.qrcodescanner.qrcode.utils.QrUtils;
+import com.google.zxing.custom.utils.QrUtils;
 
 /**
  * Created by xingli on 1/4/16.

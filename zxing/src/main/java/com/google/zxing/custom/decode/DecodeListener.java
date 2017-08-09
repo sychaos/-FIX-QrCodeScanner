@@ -1,4 +1,4 @@
-package com.kaola.qrcodescanner.qrcode.decode;
+package com.google.zxing.custom.decode;
 
 import android.os.Handler;
 
