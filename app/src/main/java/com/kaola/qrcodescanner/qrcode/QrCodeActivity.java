@@ -60,7 +60,6 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
-
         initView();
         initData();
     }
@@ -101,6 +100,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         if (null == mSurfaceView) {
             mSurfaceViewStub.setLayoutResource(R.layout.layout_surface_view);
             mSurfaceView = (SurfaceView) mSurfaceViewStub.inflate();
+            mSurfaceView.setVisibility(View.VISIBLE);
         }
         SurfaceHolder surfaceHolder = mSurfaceView.getHolder();
         if (mHasSurface) {
@@ -115,13 +115,13 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     protected void onPause() {
         super.onPause();
         if (mCaptureActivityHandler != null) {
+            if (null != mSurfaceView) {
+                mSurfaceView.setVisibility(View.GONE);
+            }
             try {
                 mCaptureActivityHandler.quitSynchronously();
                 mCaptureActivityHandler = null;
                 mHasSurface = false;
-                if (null != mSurfaceView) {
-                    mSurfaceView.getHolder().removeCallback(this);
-                }
                 CameraManager.get().closeDriver();
             } catch (Exception e) {
                 // 关闭摄像头失败的情况下,最好退出该Activity,否则下次初始化的时候会显示摄像头已占用.

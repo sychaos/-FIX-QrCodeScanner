@@ -97,19 +97,20 @@ public final class CameraManager {
     /**
      * Closes the camera driver if still in use.
      */
-    public boolean closeDriver() {
+    public void closeDriver() {
         if (mCamera != null) {
+            if(mPreviewing){
+                stopPreview();
+            }
             try {
                 mCamera.release();
                 mInitialized = false;
                 mPreviewing = false;
                 mCamera = null;
-                return true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return false;
     }
 
     /**
@@ -179,21 +180,17 @@ public final class CameraManager {
     /**
      * Tells the mCamera to stop drawing preview frames.
      */
-    public boolean stopPreview() {
-        if (mCamera != null && mPreviewing) {
-            try {
-                // 停止预览时把callback移除.
-                mCamera.setOneShotPreviewCallback(null);
-                mCamera.stopPreview();
-                mPreviewCallback.setHandler(null, 0);
-                mAutoFocusCallback.setHandler(null, 0);
-                mPreviewing = false;
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void stopPreview() {
+        try {
+            // 停止预览时把callback移除.
+            mCamera.setOneShotPreviewCallback(null);
+            mCamera.stopPreview();
+            mPreviewCallback.setHandler(null, 0);
+            mAutoFocusCallback.setHandler(null, 0);
+            mPreviewing = false;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
     }
 
     /**

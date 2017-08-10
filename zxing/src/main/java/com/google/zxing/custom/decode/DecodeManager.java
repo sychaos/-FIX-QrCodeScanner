@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 
 import com.google.zxing.R;
 
-
 /**
  * Created by xingli on 1/8/16.
  * <p/>
