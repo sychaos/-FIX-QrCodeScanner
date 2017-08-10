@@ -181,16 +181,16 @@ public final class CameraManager {
      * Tells the mCamera to stop drawing preview frames.
      */
     public void stopPreview() {
-        try {
-            // 停止预览时把callback移除.
-            mCamera.setOneShotPreviewCallback(null);
-            mCamera.stopPreview();
-            mPreviewCallback.setHandler(null, 0);
-            mAutoFocusCallback.setHandler(null, 0);
-            mPreviewing = false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            try {
+                // 停止预览时把callback移除.
+                mCamera.setOneShotPreviewCallback(null);
+                mCamera.stopPreview();
+                mPreviewCallback.setHandler(null, 0);
+                mAutoFocusCallback.setHandler(null, 0);
+                mPreviewing = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
     /**
