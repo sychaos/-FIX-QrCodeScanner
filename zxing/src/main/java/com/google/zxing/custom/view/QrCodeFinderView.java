@@ -15,9 +15,11 @@ package com.google.zxing.custom.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -58,13 +60,16 @@ public final class QrCodeFinderView extends RelativeLayout {
 
     public QrCodeFinderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.QrCodeFinderView, 0, 0);
         mPaint = new Paint();
 
         Resources resources = getResources();
         mMaskColor = resources.getColor(R.color.qr_code_finder_mask);
         mFrameColor = resources.getColor(R.color.qr_code_finder_frame);
-        mLaserColor = resources.getColor(R.color.qr_code_finder_laser);
+        mLaserColor = a.getColor(R.styleable.QrCodeFinderView_borderColor, ContextCompat.getColor(context, R.color.qr_code_finder_blue));
         mTextColor = resources.getColor(R.color.qr_code_white);
+
+        a.recycle();
 
         mFocusThick = 1;
         mAngleThick = 8;

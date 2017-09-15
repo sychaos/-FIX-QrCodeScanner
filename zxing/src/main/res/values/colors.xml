@@ -6,4 +6,5 @@
     <color name="qr_code_flash_light_text_color">#66FFFFFF</color>
     <color name="qr_code_finder_frame">#FFFFFFFF</color>
     <color name="qr_code_finder_laser">#ef8394</color>
+    <color name="qr_code_finder_blue">#1896B5</color>
 </resources>
